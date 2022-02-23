@@ -1,27 +1,20 @@
 import '@testing-library/jest-dom'
-import { shallow } from 'enzyme'
 import React from 'react'
 import PrimeraApp from '../PrimeraApp'
+import { render } from '@testing-library/react'
 
 describe('Prueba in <PrimeraApp/>', () => {
   test('Debe de mostrar saludo', () => {
     const saludo = 'Hola, soy Goku'
-    const wrapper = shallow(<PrimeraApp saludo={saludo} />)
-
-    expect(wrapper).toMatchSnapshot()
+    const wrapper = render(<PrimeraApp saludo={saludo} />)
+    wrapper.getByText(saludo+'!!!')
   })
   test('Debe de mostrar subtitulo', () => {
     const saludo = 'Hola, soy Goku'
     const subtitulo = 'Soy un subtitulo'
-    const wrapper = shallow(
-      <PrimeraApp subtitulo={subtitulo} saludo={saludo} />
-    )
+    const wrapper = render(<PrimeraApp saludo={saludo}  subtitulo={subtitulo}/>)
 
-    const textParagraph = wrapper.find('p').text()
-
-    expect(textParagraph).toBe(subtitulo)
-
-
-
+    wrapper.getByText(saludo+'!!!')
+    wrapper.getByText(subtitulo)
   })
 })

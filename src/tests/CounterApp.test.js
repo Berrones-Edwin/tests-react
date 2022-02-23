@@ -1,48 +1,44 @@
-import { shallow } from 'enzyme'
+import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import React from 'react'
 import CounterApp from '../CounterApp'
+import { fireEvent } from '@testing-library/dom'
 
 describe('Test in <CounterApp /> component', () => {
-  let wrapper = shallow(<CounterApp />)
+  // let wrapper = render(<CounterApp />)
   beforeEach(() => {
-    wrapper = shallow(<CounterApp />)
+    const value = 100
+    render(<CounterApp value={value} />)
   })
+
   test('should show component in screen', () => {
-    expect(wrapper).toMatchSnapshot()
+    screen.getByText('CounterApp')
   })
 
   test('should show value 100 in component', () => {
-    const value = 100
-    const wrapper = shallow(<CounterApp value={value} />)
-    const counterWrapper = wrapper.find('h2').text().trim()
-
-    expect(counterWrapper).toBe('100')
+    screen.getByText('CounterApp')
+    screen.getByText('100')
   })
 
   test('should increment value when click in button add', () => {
-    wrapper.find('button').at(0).simulate('click')
-    const counterWrapper = wrapper.find('h2').text().trim()
-
-    expect(counterWrapper).toBe('11')
+    const btn = screen.getByText('+1')
+    fireEvent.click(btn)
+    screen.getByText('101')
   })
   test('should decrement value when click in button -', () => {
-    wrapper.find('button').at(2).simulate('click')
-
-    const counterWrapper = wrapper.find('h2').text().trim()
-
-    expect(counterWrapper).toBe('9')
+    fireEvent.click(screen.getByText('-1'))
+    screen.getByText('99')
   })
 
   test('should show value initial to click button reset', () => {
-    const value = 155
-    const wrapper = shallow(<CounterApp value={value} />)
-    const counterWrapper = wrapper.find('h2').text().trim()
+    const btnAdd = screen.getByText('+1')
+    const btnRest = screen.getByText('-1')
 
-    wrapper.find('button').at(0).simulate('click')
-    wrapper.find('button').at(0).simulate('click')
-    wrapper.find('button').at(1).simulate('click')
-
-    expect(counterWrapper).toBe('155')
+    fireEvent.click(btnAdd)
+    fireEvent.click(btnAdd)
+    fireEvent.click(btnRest)
+    fireEvent.click(btnRest)
+    fireEvent.click(screen.getByText('Reset'))
+    screen.getByText('100')
   })
-
 })
