@@ -4,33 +4,33 @@ import React from 'react'
 import CounterApp from '../CounterApp'
 import { fireEvent } from '@testing-library/dom'
 
-describe('Test in <CounterApp /> component', () => {
+describe('<CounterApp />', () => {
   // let wrapper = render(<CounterApp />)
   beforeEach(() => {
     const value = 100
     render(<CounterApp value={value} />)
   })
 
-  test('should show component in screen', () => {
+  it('should show component in screen', () => {
     screen.getByText('CounterApp')
   })
 
-  test('should show value 100 in component', () => {
+  it('should show value 100 in component', () => {
     screen.getByText('CounterApp')
     screen.getByText('100')
   })
 
-  test('should increment value when click in button add', () => {
+  it('should increment value when click in button add', () => {
     const btn = screen.getByText('+1')
     fireEvent.click(btn)
     screen.getByText('101')
   })
-  test('should decrement value when click in button -', () => {
+  it('should decrement value when click in button -', () => {
     fireEvent.click(screen.getByText('-1'))
     screen.getByText('99')
   })
 
-  test('should show value initial to click button reset', () => {
+  it('should show value initial to click button reset', () => {
     const btnAdd = screen.getByText('+1')
     const btnRest = screen.getByText('-1')
 
